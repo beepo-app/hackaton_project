@@ -2,6 +2,7 @@ import Logo from "./../assets/logo.webp";
 import { Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
+import { Buffer } from "buffer";
 
 export default function (props) {
   const [toHome, setToHome] = useState(false);

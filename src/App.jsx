@@ -1,5 +1,8 @@
 import Logo from "./assets/logo.webp";
 import InfoModal from "./components/InfoModal";
+import { Buffer } from "buffer";
+window.Buffer = Buffer;
+
 function App() {
   return (
     <div className="bg-[#E5E5E5] min-h-screen w-full">

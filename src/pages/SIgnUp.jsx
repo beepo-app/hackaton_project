@@ -2,6 +2,7 @@ import Logo from "../assets/logo.webp";
 import metaMaskaLogo from "../assets/metamask-fox.svg";
 import { ethers } from "ethers";
 import { useState } from "react";
+import { Buffer } from "buffer";
 import { useRecoilState } from "recoil";
 import { metamaskState, infoMessagesState, tokensState } from "../../atoms";
 import { Navigate } from "react-router-dom";

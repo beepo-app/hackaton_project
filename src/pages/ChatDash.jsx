@@ -2,6 +2,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import { useState } from "react";
 import { Client } from "@xmtp/xmtp-js";
 import { Wallet } from "ethers";
+import { Buffer } from "buffer";
 import { metamaskState } from "../../atoms";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
@@ -19,6 +20,15 @@ function ChatDash(props) {
       setXmtp(xmtp);
 
       const convos = await xmtp.conversations.list();
+      console.log(convos)
+
+      const conversation = await xmtp.conversations.newConversation(
+        '0xcF11f1a209dDD056A834384D30229357d33403F2'
+      )
+      const messages = await conversation.messages()
+
+      console.log(messages)
+
 
       setChats(convos);
     }, 2000);
@@ -116,7 +126,7 @@ function ChatDash(props) {
                   <div className="flex flex-row justify-center items-center">
                     <div className="bg-[#C4C4C4] rounded-full h-12 w-12"></div>
                     <div className="flex flex-col justify-center items-start ml-4">
-                      <p className="text-black  text-base">
+                      <p className="text-black  text-base"  onClick={() => {alert("Hello")}}>
                         {" "}
                         {item.peerAddress}{" "}
                       </p>
