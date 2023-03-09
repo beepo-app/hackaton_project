@@ -9,3 +9,11 @@ export const infoMessagesState = atom({
   key: "infoMessagesState",
   default: [],
 });
+
+export const tokensState = atom({
+  key: "cyberconnectTokens",
+  default: {
+    accessToken: null,
+    refreshToken: null,
+  },
+});
