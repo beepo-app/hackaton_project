@@ -41,6 +41,12 @@ function ChatDash(props) {
                   className="w-[70%] text-white focus:border-white appearance-none outline-none text-base  px-4 py-3  bg-inherit hover:bg-[#C4C4C4]/10 border-b-2 border-[#C4C4C4]"
                 />
               </div>
+
+              <div className="text-center  space-y-4 flex flex-col pb-4  justify-center items-center w-full ">
+                <button className="items-center justify-center space-x-4 flex disabled:opacity-40 flex-row hover:bg-opacity-90 text-white font-bold w-[70%] text-center px-4 py-3 rounded-[50px] bg-[#FF9C34]">
+                  Add
+                </button>
+              </div>
             </div>
           </div>
         )}
