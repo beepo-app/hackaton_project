@@ -59,7 +59,7 @@ function SingleChat({ chat: mainChat, xmtp }) {
 
           {/* Chat map  */}
 
-          <div className="space-y-6 overflow-y-scroll min-h-[74vh] max-h-[75vh]">
+          <div className="space-y-4 overflow-y-scroll min-h-[74vh] max-h-[75vh]">
             <div className="flex flex-row justify-between space-x-4 items-center absolute bottom-4 left-0 right-0 px-4">
               <input
                 type="text"
@@ -278,7 +278,7 @@ function ChatDash(props) {
                       {item.messages.length > 0 && (
                         <p className="text-[#0E014C]  text-sm">
                           {" "}
-                          {item.messages[item.messages.length - 1]}
+                          {item.messages[item.messages.length - 1].content}
                         </p>
                       )}
                     </div>
