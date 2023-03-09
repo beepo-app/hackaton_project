@@ -6,6 +6,7 @@ import { Buffer } from "buffer";
 import { metamaskState } from "../../atoms";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
+import { connectToWeb3Provider } from "./SIgnUp";
 
 function ChatDash(props) {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -127,6 +128,19 @@ function ChatDash(props) {
           {/* Chat map  */}
 
           <div className="space-y-6 overflow-y-scroll min-h-[74vh] max-h-[75vh]">
+            {!(metamask && metamask.signer) && (
+              <div className="text-center  space-y-4 flex flex-col pb-4 mt-12 justify-center items-center w-full ">
+                <button
+                  onClick={async () =>
+                    setMetamask(await connectToWeb3Provider())
+                  }
+                  className="items-center justify-center space-x-4 flex disabled:opacity-40 flex-row hover:bg-opacity-90 text-white font-bold w-[70%] text-center px-4 py-3 rounded-[50px] bg-[#FF9C34]"
+                >
+                  Connect Metmask
+                </button>
+              </div>
+            )}
+
             {chats.length === 0 && (
               <div className="flex flex-col justify-center items-center mt-16">
                 <p className="text-[#0E014C] text-base"> No chats yet </p>

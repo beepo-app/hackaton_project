@@ -17,7 +17,7 @@ function AuthRoute({ Render }) {
     const r = async () => {
       if (metamask && metamask.signer) return;
 
-      setMetamask(await connectToWeb3Provider());
+      // setMetamask(await connectToWeb3Provider());
     };
 
     r();
