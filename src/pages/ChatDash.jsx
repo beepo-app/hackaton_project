@@ -8,13 +8,53 @@ import { useRecoilState } from "recoil";
 import { useEffect } from "react";
 import { connectToWeb3Provider } from "./SIgnUp";
 
+function SingleChat({ chat: mainChat, xmtp }) {
+  return (
+    <div className="bg-[#E5E5E5] min-h-screen w-full">
+      <main className="max-w-xl border-x relative border-black/10 shadow-xl min-h-screen bg-[#E5E5E5] mx-auto min-w-[100px]">
+        <div className="flex flex-row  py-3 justify-center items-center text-[#0E014C] font-bold text-base text-center">
+          <p> User -{mainChat.peerAddress} </p>
+        </div>
+
+        <div className="bg-white rounded-t-[30px]  p-4 absolute left-0 right-0 bottom-0    ">
+          <div className="flex flex-row justify-between items-center">
+            <p className=" py-4 text-left"> Messages </p>
+          </div>
+
+          {/* Chat map  */}
+
+          <div className="space-y-6 overflow-y-scroll min-h-[74vh] max-h-[75vh]">
+            {mainChat.messages.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  onClick={() => setMainChat(item)}
+                  className="flex hover:bg-gray-200 rounded-[30px]  p-3 flex-row justify-between items-center w-full"
+                >
+                  <div className="flex flex-row justify-center items-center">
+                    <div className="bg-[#C4C4C4] rounded-full h-12 w-12"></div>
+                    <div className="flex flex-col justify-center items-start ml-4">
+                      <p className="text-[#0E014C]  text-sm">{item.content}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
 function ChatDash(props) {
   const [showAddForm, setShowAddForm] = useState(false);
   const [metamask, setMetamask] = useRecoilState(metamaskState);
   const [xmtp, setXmtp] = useState(null);
   const [chats, setChats] = useState([]);
-  const [pchats, setpChats] = useState([]);
   const [faddr, setFAddr] = useState("");
+
+  const [mainChat, setMainChat] = useState(null);
 
   useEffect(() => {
     if (xmtp) return;
@@ -42,6 +82,7 @@ function ChatDash(props) {
       const convo = {
         peerAddress: faddr,
         messages: messages,
+        convo: conversation,
       };
 
       setChats([...chats, convo]);
@@ -55,6 +96,10 @@ function ChatDash(props) {
 
   function handleAddr(e) {
     setFAddr(e.target.value);
+  }
+
+  if (mainChat) {
+    return <SingleChat xmtp={xmtp} chat={mainChat} />;
   }
 
   return (
@@ -158,17 +203,13 @@ function ChatDash(props) {
               return (
                 <div
                   key={index}
+                  onClick={() => setMainChat(item)}
                   className="flex hover:bg-gray-200 rounded-[30px]  p-3 flex-row justify-between items-center w-full"
                 >
                   <div className="flex flex-row justify-center items-center">
                     <div className="bg-[#C4C4C4] rounded-full h-12 w-12"></div>
                     <div className="flex flex-col justify-center items-start ml-4">
-                      <p
-                        className="text-black  text-base"
-                        onClick={() => {
-                          alert("Hello");
-                        }}
-                      >
+                      <p className="text-black  text-base">
                         {" "}
                         {item.peerAddress}{" "}
                       </p>
