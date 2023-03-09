@@ -3,6 +3,8 @@ import { useState } from "react";
 
 function ChatDash(props) {
   const [showAddForm, setShowAddForm] = useState(false);
+
+  const [chats, setChats] = useState([]);
   return (
     <div className="bg-[#E5E5E5] min-h-screen w-full">
       <main className="max-w-xl border-x relative border-black/10 shadow-xl min-h-screen bg-[#E5E5E5] mx-auto min-w-[100px]">
@@ -61,8 +63,21 @@ function ChatDash(props) {
 
           {/* Chat map  */}
 
-          <div className="space-y-6 overflow-y-scroll max-h-[75vh]">
-            {[1, 2, 3, 4, 5, 1, 1, 1, 1, 1, 1, 11, , 1].map((item, index) => {
+          <div className="space-y-6 overflow-y-scroll min-h-[74vh] max-h-[75vh]">
+            {chats.length === 0 && (
+              <div className="flex flex-col justify-center items-center mt-16">
+                <p className="text-[#0E014C] text-base"> No chats yet </p>
+                <p
+                  onClick={() => setShowAddForm(true)}
+                  className="cursor-pointer p-4 text-[#0E014C] text-sm"
+                >
+                  {" "}
+                  Add a friend to start chatting{" "}
+                </p>
+              </div>
+            )}
+
+            {chats.map((item, index) => {
               return (
                 <div
                   key={index}
