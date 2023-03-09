@@ -24,6 +24,21 @@ function SingleChat({ chat: mainChat, xmtp }) {
           {/* Chat map  */}
 
           <div className="space-y-6 overflow-y-scroll min-h-[74vh] max-h-[75vh]">
+            <div className="flex flex-row justify-between space-x-4 items-center absolute bottom-4 left-0 right-0 px-4">
+              <input
+                type="text"
+                id="msg"
+                inputMode="text"
+                placeholder=""
+                className="w-[70%] text-white focus:border-black appearance-none outline-none text-base  px-4 py-3  bg-inherit hover:bg-[#C4C4C4]/10 border-2  rounded-[50px] border-[#C4C4C4]"
+              />
+
+              <button className="bg-black block w-[25%] px-4 py-4 text-white text-center rounded-lg ">
+                {" "}
+                Send{" "}
+              </button>
+            </div>
+
             {mainChat.messages.map((item, index) => {
               return (
                 <div
@@ -173,7 +188,7 @@ function ChatDash(props) {
           {/* Chat map  */}
 
           <div className="space-y-6 overflow-y-scroll min-h-[74vh] max-h-[75vh]">
-            {!(metamask && metamask.signer) && (
+            {!(metamask && metamask.signer && xmtp) && (
               <div className="text-center  space-y-4 flex flex-col pb-4 mt-12 justify-center items-center w-full ">
                 <button
                   onClick={async () =>
@@ -181,7 +196,10 @@ function ChatDash(props) {
                   }
                   className="items-center justify-center space-x-4 flex disabled:opacity-40 flex-row hover:bg-opacity-90 text-white font-bold w-[70%] text-center px-4 py-3 rounded-[50px] bg-[#FF9C34]"
                 >
-                  Connect Metmask
+                  <span> Connect Metmask</span>
+                  {!xmtp && metamask && (
+                    <span className="animate-spin rounded-full w-4 h-4 inline-block border-t-2 border-b-2 border-r-2 border-[#0E014C]"></span>
+                  )}
                 </button>
               </div>
             )}
