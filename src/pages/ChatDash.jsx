@@ -9,6 +9,36 @@ import { useEffect } from "react";
 import { connectToWeb3Provider } from "./SIgnUp";
 
 function SingleChat({ chat: mainChat, xmtp }) {
+  const [msg, setMsg] = useState("");
+  const [lMsgs, setLMsgs] = useState(mainChat.messages);
+
+  useEffect(() => {
+    const e = async () => {
+      for await (const message of await mainChat.convo.streamMessages()) {
+        console.log(`[${message.senderAddress}]: ${message.content}`);
+        setLMsgs([...lMsgs, message]);
+      }
+    };
+
+    e();
+  });
+
+  function handleMsg(e) {
+    setMsg(e.target.value);
+  }
+
+  async function sendMsg() {
+    if (!msg) {
+      alert("Type ina message!");
+
+      return;
+    }
+
+    await mainChat.convo.send(msg);
+
+    alert("Message sent!");
+  }
+
   return (
     <div className="bg-[#E5E5E5] min-h-screen w-full">
       <main className="max-w-xl border-x relative border-black/10 shadow-xl min-h-screen bg-[#E5E5E5] mx-auto min-w-[100px]">
@@ -29,8 +59,10 @@ function SingleChat({ chat: mainChat, xmtp }) {
                 type="text"
                 id="msg"
                 inputMode="text"
+                value={msg}
+                onChange={handleMsg}
                 placeholder=""
-                className="w-[70%] text-white focus:border-black appearance-none outline-none text-base  px-4 py-3  bg-inherit hover:bg-[#C4C4C4]/10 border-2  rounded-[50px] border-[#C4C4C4]"
+                className="w-[70%] text-black focus:border-black appearance-none outline-none text-base  px-4 py-3  bg-inherit hover:bg-[#C4C4C4]/10 border-2  rounded-[50px] border-[#C4C4C4]"
               />
 
               <button className="bg-black block w-[25%] px-4 py-4 text-white text-center rounded-lg ">
@@ -39,11 +71,10 @@ function SingleChat({ chat: mainChat, xmtp }) {
               </button>
             </div>
 
-            {mainChat.messages.map((item, index) => {
+            {lMsgs.map((item, index) => {
               return (
                 <div
                   key={index}
-                  onClick={() => setMainChat(item)}
                   className="flex hover:bg-gray-200 rounded-[30px]  p-3 flex-row justify-between items-center w-full"
                 >
                   <div className="flex flex-row justify-center items-center">
