@@ -11,6 +11,9 @@ function ChatDash(props) {
   const [showAddForm, setShowAddForm] = useState(false);
   const [metamask, setMetamask] = useRecoilState(metamaskState);
   const [xmtp, setXmtp] = useState(null);
+  const [chats, setChats] = useState([]);
+  const [pchats, setpChats] = useState([]);
+  const [faddr, setFAddr] = useState("");
 
   useEffect(() => {
     if (xmtp) return;
@@ -18,19 +21,6 @@ function ChatDash(props) {
     const tId = setTimeout(async () => {
       const xmtp = await Client.create(metamask.signer);
       setXmtp(xmtp);
-
-      const convos = await xmtp.conversations.list();
-      console.log(convos)
-
-      const conversation = await xmtp.conversations.newConversation(
-        '0xcF11f1a209dDD056A834384D30229357d33403F2'
-      )
-      const messages = await conversation.messages()
-
-      console.log(messages)
-
-
-      setChats(convos);
     }, 2000);
 
     return () => {
@@ -38,7 +28,34 @@ function ChatDash(props) {
     };
   }, [metamask]);
 
-  const [chats, setChats] = useState([]);
+  async function addConvo() {
+    if (!xmtp) {
+      alert("XMTP not connected!");
+    }
+    try {
+      const conversation = await xmtp.conversations.newConversation(faddr);
+      const messages = await conversation.messages();
+
+      console.log(messages);
+
+      const convo = {
+        peerAddress: faddr,
+        messages: messages,
+      };
+
+      setChats([...chats, convo]);
+    } catch (err) {
+      console.log(err);
+      alert(err);
+    }
+
+    setShowAddForm(false);
+  }
+
+  function handleAddr(e) {
+    setFAddr(e.target.value);
+  }
+
   return (
     <div className="bg-[#E5E5E5] min-h-screen w-full">
       <main className="max-w-xl border-x relative border-black/10 shadow-xl min-h-screen bg-[#E5E5E5] mx-auto min-w-[100px]">
@@ -72,12 +89,18 @@ function ChatDash(props) {
                   id="address"
                   inputMode="text"
                   placeholder="Address"
+                  value={faddr}
+                  onChange={handleAddr}
                   className="w-[70%] text-white focus:border-white appearance-none outline-none text-base  px-4 py-3  bg-inherit hover:bg-[#C4C4C4]/10 border-b-2 border-[#C4C4C4]"
                 />
               </div>
 
               <div className="text-center  space-y-4 flex flex-col pb-4  justify-center items-center w-full ">
-                <button className="items-center justify-center space-x-4 flex disabled:opacity-40 flex-row hover:bg-opacity-90 text-white font-bold w-[70%] text-center px-4 py-3 rounded-[50px] bg-[#FF9C34]">
+                <button
+                  onClick={addConvo}
+                  disabled={faddr.length < 11}
+                  className="items-center justify-center space-x-4 flex disabled:opacity-40 flex-row hover:bg-opacity-90 text-white font-bold w-[70%] text-center px-4 py-3 rounded-[50px] bg-[#FF9C34]"
+                >
                   Add
                 </button>
               </div>
@@ -126,11 +149,22 @@ function ChatDash(props) {
                   <div className="flex flex-row justify-center items-center">
                     <div className="bg-[#C4C4C4] rounded-full h-12 w-12"></div>
                     <div className="flex flex-col justify-center items-start ml-4">
-                      <p className="text-black  text-base"  onClick={() => {alert("Hello")}}>
+                      <p
+                        className="text-black  text-base"
+                        onClick={() => {
+                          alert("Hello");
+                        }}
+                      >
                         {" "}
                         {item.peerAddress}{" "}
                       </p>
-                      <p className="text-[#0E014C]  text-sm"> Last message </p>
+
+                      {item.messages.length > 0 && (
+                        <p className="text-[#0E014C]  text-sm">
+                          {" "}
+                          {item.messages[item.messages.length - 1]}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
