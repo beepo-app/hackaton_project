@@ -8,7 +8,7 @@ import { useRecoilState } from "recoil";
 import { useEffect } from "react";
 import { connectToWeb3Provider } from "./SIgnUp";
 
-function SingleChat({ chat: mainChat, xmtp }) {
+function SingleChat({ chat: mainChat, xmtp, goBack }) {
   const [msg, setMsg] = useState("");
   const [lMsgs, setLMsgs] = useState(mainChat.messages);
   const [s, setS] = useState(false);
@@ -55,12 +55,18 @@ function SingleChat({ chat: mainChat, xmtp }) {
         <div className="bg-white rounded-t-[30px]  p-4 absolute left-0 right-0 bottom-0    ">
           <div className="flex flex-row justify-between items-center">
             <p className=" py-4 text-left"> Messages </p>
+            <p
+              onClick={goBack}
+              className=" py-4  px-4  hover:text-black/80 cursor-pointer"
+            >
+              Go back
+            </p>
           </div>
 
           {/* Chat map  */}
 
-          <div className="space-y-4 overflow-y-scroll min-h-[74vh] max-h-[75vh]">
-            <div className="flex flex-row justify-between space-x-4 items-center absolute bottom-4 left-0 right-0 px-4">
+          <div className="space-y-4 overflow-y-scroll min-h-[74vh] max-h-[75vh] pb-24">
+            <div className="flex bg-white py-3 flex-row justify-between space-x-4 items-center absolute bottom-4 left-0 right-0 px-4">
               <input
                 type="text"
                 id="msg"
@@ -157,7 +163,13 @@ function ChatDash(props) {
   }
 
   if (mainChat) {
-    return <SingleChat xmtp={xmtp} chat={mainChat} />;
+    return (
+      <SingleChat
+        xmtp={xmtp}
+        chat={mainChat}
+        goBack={() => setMainChat(null)}
+      />
+    );
   }
 
   return (
