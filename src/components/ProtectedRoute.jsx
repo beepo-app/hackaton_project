@@ -3,10 +3,25 @@ import { useRecoilState } from "recoil";
 import { Navigate } from "react-router-dom";
 import { useState } from "react";
 import { useLocalStorage } from "react-use";
+import { connectToWeb3Provider } from "../pages/SIgnUp";
+import { metamaskState } from "../../atoms";
+import { useEffect } from "react";
 
 function AuthRoute({ Render }) {
   const [tokens, setTokens] = useRecoilState(tokensState);
   const [value, setValue] = useLocalStorage("BEEPO_TOKENS", null);
+
+  const [metamask, setMetamask] = useRecoilState(metamaskState);
+
+  useEffect(() => {
+    const r = async () => {
+      if (metamask && metamask.signer) return;
+
+      setMetamask(await connectToWeb3Provider());
+    };
+
+    r();
+  }, [metamask]);
 
   if (!tokens.accessToken) {
     if (value && value.accessToken) {

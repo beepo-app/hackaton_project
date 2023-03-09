@@ -1,8 +1,32 @@
 import ProtectedRoute from "../components/ProtectedRoute";
 import { useState } from "react";
+import { Client } from "@xmtp/xmtp-js";
+import { Wallet } from "ethers";
+import { metamaskState } from "../../atoms";
+import { useRecoilState } from "recoil";
+import { useEffect } from "react";
 
 function ChatDash(props) {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [metamask, setMetamask] = useRecoilState(metamaskState);
+  const [xmtp, setXmtp] = useState(null);
+
+  useEffect(() => {
+    if (xmtp) return;
+    if (!metamask) return;
+    const tId = setTimeout(async () => {
+      const xmtp = await Client.create(metamask.signer);
+      setXmtp(xmtp);
+
+      const convos = await xmtp.conversations.list();
+
+      setChats(convos);
+    }, 2000);
+
+    return () => {
+      clearTimeout(tId);
+    };
+  }, [metamask]);
 
   const [chats, setChats] = useState([]);
   return (
@@ -92,7 +116,10 @@ function ChatDash(props) {
                   <div className="flex flex-row justify-center items-center">
                     <div className="bg-[#C4C4C4] rounded-full h-12 w-12"></div>
                     <div className="flex flex-col justify-center items-start ml-4">
-                      <p className="text-black  text-base"> Name </p>
+                      <p className="text-black  text-base">
+                        {" "}
+                        {item.peerAddress}{" "}
+                      </p>
                       <p className="text-[#0E014C]  text-sm"> Last message </p>
                     </div>
                   </div>

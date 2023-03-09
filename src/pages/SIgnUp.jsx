@@ -8,7 +8,7 @@ import { Navigate } from "react-router-dom";
 import { mutations, GQLClient } from "../../graphql";
 import { useLocalStorage } from "react-use";
 
-async function connectToWeb3Provider() {
+export async function connectToWeb3Provider() {
   if (!window.ethereum) return null;
 
   const provider = new ethers.BrowserProvider(window.ethereum);
