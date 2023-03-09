@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { metamaskState, infoMessagesState, tokensState } from "../../atoms";
 import { Navigate } from "react-router-dom";
 import { mutations, GQLClient } from "../../graphql";
+import { useLocalStorage } from "react-use";
 
 async function connectToWeb3Provider() {
   if (!window.ethereum) return null;
@@ -24,6 +25,7 @@ function SignUpProfile({ metamask }) {
   const [displayName, setDisplayName] = useState("");
   const [tokens, setTokens] = useRecoilState(tokensState);
   const [toChatDash, setToChatDash] = useState(false);
+  const [value, setValue] = useLocalStorage("BEEPO_TOKENS", null);
 
   function handleNameChange(e) {
     setDisplayName(e.target.value);
@@ -55,6 +57,9 @@ function SignUpProfile({ metamask }) {
 
       const { accessToken } = data2.loginVerify;
       setTokens({ accessToken });
+
+      setValue({ accessToken });
+
       setToChatDash(true);
     } catch (err) {
       console.log(err);
