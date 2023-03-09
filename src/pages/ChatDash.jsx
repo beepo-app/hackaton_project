@@ -11,6 +11,7 @@ import { connectToWeb3Provider } from "./SIgnUp";
 function SingleChat({ chat: mainChat, xmtp }) {
   const [msg, setMsg] = useState("");
   const [lMsgs, setLMsgs] = useState(mainChat.messages);
+  const [s, setS] = useState(false);
 
   useEffect(() => {
     const e = async () => {
@@ -34,7 +35,12 @@ function SingleChat({ chat: mainChat, xmtp }) {
       return;
     }
 
+    setS(true);
+
     await mainChat.convo.send(msg);
+
+    setMsg("");
+    setS(false);
 
     alert("Message sent!");
   }
@@ -65,9 +71,15 @@ function SingleChat({ chat: mainChat, xmtp }) {
                 className="w-[70%] text-black focus:border-black appearance-none outline-none text-base  px-4 py-3  bg-inherit hover:bg-[#C4C4C4]/10 border-2  rounded-[50px] border-[#C4C4C4]"
               />
 
-              <button className="bg-black block w-[25%] px-4 py-4 text-white text-center rounded-lg ">
-                {" "}
-                Send{" "}
+              <button
+                onClick={sendMsg}
+                className="bg-black block w-[25%] px-4 py-4 text-white text-center rounded-lg "
+              >
+                {s ? (
+                  <span className="animate-spin rounded-full w-4 h-4 inline-block border-t-2 border-b-2 border-r-2 border-[#0E014C]"></span>
+                ) : (
+                  <span> Send </span>
+                )}
               </button>
             </div>
 
