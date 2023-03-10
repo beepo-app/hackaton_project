@@ -11,6 +11,16 @@ export const GQLClient = new GraphQLClient(
 );
 
 export const mutations = {
+  createProfile: gql`
+    input CreateCreateProfileTypedDataInput {
+      to: AddressEVM!
+      handle: String!
+      avatar: URL!
+      metadata: String!
+
+      operator: AddressEVM!
+    }
+  `,
   loginGetMessage: gql`
     mutation loginGetMessage($domain: String!, $address: AddressEVM!) {
       loginGetMessage(input: { domain: $domain, address: $address }) {
