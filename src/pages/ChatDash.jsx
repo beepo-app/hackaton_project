@@ -93,18 +93,17 @@ function SingleChat({ chat: mainChat, xmtp, goBack, sender }) {
               return (
                 <div
                   key={index}
-                  className={
-                    "flex hover:bg-gray-200 rounded-[30px]  p-3 flex-row justify-between items-center w-full " +
-                    `${
-                      item.senderAddress === sender
-                        ? " bg-[#0E014C]/80 text-white "
-                        : " bg-white text-[#0E014C] "
-                    }`
-                  }
+                  className={`flex hover:bg-gray-200 rounded-[30px]  p-3 flex-row justify-between items-center w-full ${
+                    item.recipientAddress === sender &&
+                    " bg-[#0E014C]/80    text-white "
+                  }   ${
+                    item.recipientAddress !== sender &&
+                    "  bg-white text-[#0E014C]"
+                  } `}
                 >
-                  <div className="flex flex-row justify-center items-center">
+                  <div className="flex flex-row bg-inherit justify-center items-center">
                     <div className="bg-[#C4C4C4] rounded-full h-12 w-12"></div>
-                    <div className="flex flex-col justify-center items-start ml-4">
+                    <div className="flex flex-col bg-inherit justify-center items-start ml-4">
                       <p className=" text-sm">{item.content}</p>
                     </div>
                   </div>
