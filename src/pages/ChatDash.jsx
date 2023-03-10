@@ -49,7 +49,7 @@ function SingleChat({ chat: mainChat, xmtp, goBack, sender }) {
     <div className="bg-[#E5E5E5] min-h-screen w-full">
       <main className="max-w-xl border-x relative border-black/10 shadow-xl min-h-screen bg-[#E5E5E5] mx-auto min-w-[100px]">
         <div className="flex flex-row  py-3 justify-center items-center text-[#0E014C] font-bold text-base text-center">
-          <p> User -{mainChat.peerAddress} </p>
+          <p> User - {mainChat.peerAddress} </p>
         </div>
 
         <div className="bg-white rounded-t-[30px]  p-4 absolute left-0 right-0 bottom-0    ">
