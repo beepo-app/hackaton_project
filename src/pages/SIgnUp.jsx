@@ -183,6 +183,7 @@ export default function (props) {
           <p className="text-black/60 "> Already have an account?</p>
 
           <button
+            onClick={connectMetaMask}
             disabled={fetchingprovider}
             className="items-center justify-center space-x-4 flex  text-[#0E014C] disabled:opacity-40 font-bold w-[70%] text-center px-4 py-3 rounded-[50px] bg-inherit hover:bg-[#0E014C]/10 border border-[#0E014C]"
           >
