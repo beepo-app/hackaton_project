@@ -8,7 +8,7 @@ import { useRecoilState } from "recoil";
 import { useEffect } from "react";
 import { connectToWeb3Provider } from "./SIgnUp";
 
-function SingleChat({ chat: mainChat, xmtp, goBack }) {
+function SingleChat({ chat: mainChat, xmtp, goBack, sender }) {
   const [msg, setMsg] = useState("");
   const [lMsgs, setLMsgs] = useState(mainChat.messages);
   const [s, setS] = useState(false);
@@ -93,12 +93,19 @@ function SingleChat({ chat: mainChat, xmtp, goBack }) {
               return (
                 <div
                   key={index}
-                  className="flex hover:bg-gray-200 rounded-[30px]  p-3 flex-row justify-between items-center w-full"
+                  className={
+                    "flex hover:bg-gray-200 rounded-[30px]  p-3 flex-row justify-between items-center w-full " +
+                    `${
+                      item.senderAddress === sender
+                        ? " bg-[#0E014C]/80 text-white "
+                        : " bg-white text-[#0E014C] "
+                    }`
+                  }
                 >
                   <div className="flex flex-row justify-center items-center">
                     <div className="bg-[#C4C4C4] rounded-full h-12 w-12"></div>
                     <div className="flex flex-col justify-center items-start ml-4">
-                      <p className="text-[#0E014C]  text-sm">{item.content}</p>
+                      <p className=" text-sm">{item.content}</p>
                     </div>
                   </div>
                 </div>
@@ -168,6 +175,7 @@ function ChatDash(props) {
         xmtp={xmtp}
         chat={mainChat}
         goBack={() => setMainChat(null)}
+        sender={metamask.accounts[0]}
       />
     );
   }
